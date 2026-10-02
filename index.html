@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lucky Hardware | Sane Chowk, Chikhali</title>
+  
+  <!-- Tailwind CSS & FontAwesome -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+          colors: {
+            brand: {
+              400: '#facc15',
+              500: '#eab308',
+              600: '#ca8a04',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <style>
+    .glass-card {
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col antialiased selection:bg-brand-500 selection:text-slate-950 pb-24">
+
+  <!-- NAVBAR -->
+  <header class="sticky top-0 z-40 border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-xl">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <div class="flex items-center gap-3 cursor-pointer" onclick="resetFilters()">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-brand-500 to-amber-300 flex items-center justify-center shadow-lg shadow-brand-500/20">
+          <i class="fa-solid fa-screwdriver-wrench text-slate-950 text-lg"></i>
+        </div>
+        <div>
+          <h1 class="font-extrabold text-lg tracking-tight text-white leading-none">Lucky Hardware</h1>
+          <span class="text-[10px] text-slate-400 font-medium tracking-wide">Sane Chowk, Chikhali, Pune</span>
+        </div>
+      </div>
+
+      <!-- Header Actions -->
+      <div class="flex items-center gap-3">
+        <!-- Phone Call Button -->
+        <a href="tel:+919552768031" class="bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 px-3.5 py-2.5 rounded-2xl text-xs font-semibold flex items-center gap-2 transition">
+          <i class="fa-solid fa-phone text-emerald-400"></i>
+          <span class="hidden md:inline">Call Us</span>
+        </a>
+
+        <!-- Admin Panel Trigger -->
+        <button onclick="openPasswordModal()" class="bg-slate-900 border border-slate-800 hover:border-slate-700 text-slate-300 px-4 py-2.5 rounded-2xl text-xs font-semibold flex items-center gap-2 transition cursor-pointer">
+          <i class="fa-solid fa-lock text-brand-400"></i>
+          <span>Admin Panel</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex-1 w-full space-y-8">
+    
+    <!-- Hero Banner -->
+    <div class="relative overflow-hidden rounded-3xl bg-gradient-to-r from-slate-900 via-slate-900 to-slate-950 border border-slate-800/80 p-8 md:p-10">
+      <div class="relative z-10 max-w-2xl">
+        <span class="inline-block bg-brand-500/10 border border-brand-500/20 text-brand-400 text-xs font-bold px-3 py-1 rounded-full mb-3">
+          <i class="fa-solid fa-bolt mr-1"></i> Instant WhatsApp Ordering
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
+          Quality Hardware, Tools & Building Supplies
+        </h2>
+        <p class="text-slate-400 text-sm mt-2">
+          Select items from our inventory and send your order straight to our shop on WhatsApp.
+        </p>
+      </div>
+    </div>
+
+    <!-- Search & Category Filters -->
+    <div class="flex flex-col sm:flex-row gap-4 justify-between items-center bg-slate-900/60 p-3 rounded-2xl border border-slate-800/80">
+      <div class="relative w-full sm:w-80">
+        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-xs text-slate-500"></i>
+        <input type="text" id="searchInput" oninput="renderProducts()" placeholder="Search hammer, pipes, tools..." class="w-full bg-slate-950 border border-slate-800 focus:border-brand-500/50 text-xs text-white pl-9 pr-4 py-2.5 rounded-xl outline-none transition">
+      </div>
+
+      <!-- Category Chips -->
+      <div id="categoryChips" class="flex gap-2 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0"></div>
+    </div>
+
+    <!-- Products Grid -->
+    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+
+    <!-- Customer Support Banner -->
+    <div class="glass-card rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 border border-slate-800/80">
+      <div class="space-y-1 text-center md:text-left">
+        <h3 class="text-lg font-bold text-white flex items-center justify-center md:justify-start gap-2">
+          <i class="fa-solid fa-headset text-brand-400"></i> Need Custom Quantities or Advice?
+        </h3>
+        <p class="text-xs text-slate-400">Get directly in touch with our customer support for hardware inquiries and price quotes.</p>
+      </div>
+      <div class="flex items-center gap-3">
+        <a href="tel:+919552768031" class="bg-slate-900 hover:bg-slate-800 border border-slate-700 text-white font-bold px-5 py-3 rounded-2xl text-xs flex items-center gap-2 transition">
+          <i class="fa-solid fa-phone text-brand-400"></i> +91 9552768031
+        </a>
+        <a href="https://wa.me/919552768031?text=Hello%20Lucky%20Hardware,%20I%20have%20an%20inquiry." target="_blank" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold px-5 py-3 rounded-2xl text-xs flex items-center gap-2 transition shadow-lg shadow-emerald-500/20">
+          <i class="fa-brands fa-whatsapp text-base"></i> Chat Support
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- STICKY BOTTOM CART BAR -->
+  <div id="cartBar" class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 z-30 hidden">
+    <div class="bg-slate-900/90 backdrop-blur-xl border border-slate-800 p-4 rounded-3xl shadow-2xl flex items-center justify-between gap-6 min-w-[320px]">
+      <div>
+        <p class="text-[10px] text-slate-400 font-semibold" id="cartCount">0 items selected</p>
+        <p class="text-lg font-black text-brand-400">Total: ₹<span id="cartTotal">0</span></p>
+      </div>
+      <button onclick="sendWhatsAppOrder()" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold py-3 px-5 rounded-2xl flex items-center gap-2 text-xs transition shadow-lg shadow-emerald-500/20 cursor-pointer">
+        <i class="fa-brands fa-whatsapp text-lg"></i> Send Order on WhatsApp
+      </button>
+    </div>
+  </div>
+
+  <!-- ADMIN PASSWORD MODAL -->
+  <div id="passwordModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glass-card max-w-sm w-full p-6 rounded-3xl space-y-4 relative">
+      <button onclick="closePasswordModal()" class="absolute right-4 top-4 text-slate-400 hover:text-white cursor-pointer">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <div class="text-center space-y-1">
+        <div class="w-12 h-12 rounded-2xl bg-brand-500/10 border border-brand-500/20 text-brand-400 flex items-center justify-center mx-auto mb-2">
+          <i class="fa-solid fa-shield-halved text-xl"></i>
+        </div>
+        <h3 class="text-base font-extrabold text-white">Admin Access</h3>
+        <p class="text-xs text-slate-400">Enter secure password to view admin information.</p>
+      </div>
+
+      <form onsubmit="handlePasswordSubmit(event)" class="space-y-3 pt-2">
+        <div class="relative">
+          <input type="password" id="adminPasswordInput" placeholder="Enter password" required class="w-full bg-slate-950 border border-slate-800 text-xs text-white px-3.5 py-3 rounded-xl outline-none focus:border-brand-500 pr-10">
+          <button type="button" onclick="togglePasswordVisibility()" class="absolute right-3 top-3.5 text-slate-500 hover:text-slate-300 cursor-pointer">
+            <i class="fa-solid fa-eye text-xs" id="passEyeIcon"></i>
+          </button>
+        </div>
+
+        <p id="passwordError" class="text-[11px] text-red-400 hidden text-center font-medium">Incorrect password. Access denied.</p>
+
+        <button type="submit" class="w-full bg-brand-500 hover:bg-brand-400 text-slate-950 font-extrabold py-3 rounded-xl text-xs transition cursor-pointer">
+          Unlock Dashboard
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADMIN DASHBOARD MODAL -->
+  <div id="adminModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="glass-card max-w-lg w-full p-6 rounded-3xl space-y-5 relative border border-slate-800">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+        <h3 class="text-base font-extrabold text-white flex items-center gap-2">
+          <i class="fa-solid fa-sliders text-brand-400"></i> Store Admin Guide
+        </h3>
+        <button onclick="closeAdminModal()" class="text-slate-400 hover:text-white cursor-pointer">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3 text-xs text-slate-300">
+        <p class="font-bold text-white">To add or remove products permanently for all customers on GitHub Pages:</p>
+        <ol class="list-decimal pl-4 space-y-2 text-slate-400">
+          <li>Open your repository on GitHub.com and open <code class="text-brand-400">index.html</code>.</li>
+          <li>Find the <code class="text-brand-400">PRODUCTS</code> array near line 170.</li>
+          <li>Add or delete item blocks easily following the clean structure shown in code comments.</li>
+          <li>Save/Commit changes on GitHub. The website updates live in 1-2 minutes.</li>
+        </ol>
+      </div>
+
+      <div class="bg-slate-950 p-4 rounded-2xl border border-slate-800">
+        <h4 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-2">Active Products Loaded ({PRODUCTS.length})</h4>
+        <div id="adminProductList" class="space-y-2 max-h-48 overflow-y-auto pr-1"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* 
+      ===================================================================
+      EASY IN-CODE PRODUCT MANAGEMENT
+      - Add new products below inside the PRODUCTS array.
+      - Make sure every product except the last one ends with a comma (,).
+      ===================================================================
+    */
+    const PRODUCTS = [
+      {
+        id: 1,
+        name: "Heavy Duty Steel Claw Hammer (500g)",
+        price: 350,
+        unit: "pc",
+        category: "Hand Tools",
+        img: "https://images.unsplash.com/photo-1586864387967-d02ef85d93e8?w=500"
+      },
+      {
+        id: 2,
+        name: "PVC Conduit Pipe 20mm (3m)",
+        price: 85,
+        unit: "m",
+        category: "Plumbing",
+        img: "https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=500"
+      },
+      {
+	id: 5,
+	name: "kabutar net(22*6.5)",
+	price: 550,
+	unit:"pc",
+	category: "plumbing",
+	img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxDAifYhX3Cr-TAevNRD0jd9Qe10RbXxmbxCjx8nSikA&s=10"
+	},
+      {
+        id: 3,
+        name: "12V Cordless Power Drill Machine",
+        price: 2499,
+        unit: "pc",
+        category: "Power Tools",
+        img: "https://images.unsplash.com/photo-1504148455328-c376907d081c?w=500"
+      }
+      /*
+      To add a new product, paste this template above:
+      ,{
+        id: 4,
+        name: "Asian Paints Royale Emulsion (1L)",
+        price: 450,
+        unit: "pc",
+        category: "Paints & Accessories",
+        img: "https://images.unsplash.com/photo-1589939705384-5185137a7f0f?w=500"
+      }
+      */
+    ];
+
+    let cart = {};
+    let selectedCategory = 'All';
+    let isAdminAuthenticated = false;
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderCategoryChips();
+      renderProducts();
+    });
+
+    function renderCategoryChips() {
+      const categories = ['All', 'Hand Tools', 'Power Tools', 'Plumbing', 'Electrical', 'Paints & Accessories'];
+      const container = document.getElementById('categoryChips');
+      if (!container) return;
+      container.innerHTML = '';
+
+      categories.forEach(cat => {
+        const active = selectedCategory === cat;
+        const btn = document.createElement('button');
+        btn.className = `px-3.5 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition cursor-pointer ${
+          active 
+            ? 'bg-brand-500 text-slate-950 shadow-md shadow-brand-500/10' 
+            : 'bg-slate-950 border border-slate-800 text-slate-400 hover:text-white'
+        }`;
+        btn.innerText = cat;
+        btn.onclick = () => {
+          selectedCategory = cat;
+          renderCategoryChips();
+          renderProducts();
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    function renderProducts() {
+      const searchInput = document.getElementById('searchInput');
+      const search = searchInput ? searchInput.value.toLowerCase() : '';
+      const grid = document.getElementById('productGrid');
+      if (!grid) return;
+      
+      const filtered = PRODUCTS.filter(p => {
+        const matchesSearch = p.name.toLowerCase().includes(search);
+        const matchesCat = selectedCategory === 'All' || p.category === selectedCategory;
+        return matchesSearch && matchesCat;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="col-span-full text-center py-16 text-slate-500 text-xs">No products match your search.</div>`;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(p => {
+        const fallback = "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=500";
+        const qty = cart[p.id] || 0;
+
+        return `
+          <div class="glass-card rounded-3xl p-4 flex flex-col justify-between hover:border-brand-500/40 transition duration-300 group">
+            <div>
+              <div class="relative w-full h-40 bg-slate-950 rounded-2xl overflow-hidden mb-3 border border-slate-800">
+                <img src="${p.img || fallback}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" onerror="this.src='${fallback}'">
+                <span class="absolute top-2 right-2 bg-slate-950/80 backdrop-blur-md border border-slate-700 text-[10px] font-bold text-brand-400 px-2.5 py-0.5 rounded-full">
+                  ${p.category}
+                </span>
+              </div>
+              <h3 class="font-bold text-sm text-white line-clamp-2">${p.name}</h3>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-slate-800/80 flex items-center justify-between">
+              <div>
+                <span class="text-[10px] text-slate-500 block">Price</span>
+                <span class="font-black text-base text-brand-400">₹${p.price} <span class="text-[10px] font-normal text-slate-400">/${p.unit}</span></span>
+              </div>
+
+              <div class="flex items-center bg-slate-950 border border-slate-800 rounded-xl overflow-hidden p-0.5">
+                <button onclick="updateCart(${p.id}, -1)" class="w-7 h-7 text-xs font-bold text-slate-400 hover:text-white flex items-center justify-center hover:bg-slate-800 rounded-lg transition cursor-pointer">-</button>
+                <span class="px-2 text-xs font-extrabold text-white">${qty}</span>
+                <button onclick="updateCart(${p.id}, 1)" class="w-7 h-7 text-xs font-bold bg-brand-500 text-slate-950 flex items-center justify-center rounded-lg transition hover:bg-brand-400 cursor-pointer">+</button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      renderAdminList();
+      updateCartSummary();
+    }
+
+    function updateCart(id, change) {
+      cart[id] = (cart[id] || 0) + change;
+      if (cart[id] <= 0) delete cart[id];
+      renderProducts();
+    }
+
+    function updateCartSummary() {
+      const cartBar = document.getElementById('cartBar');
+      if (!cartBar) return;
+      let totalCount = 0;
+      let totalPrice = 0;
+
+      for (let id in cart) {
+        const product = PRODUCTS.find(p => p.id == id);
+        if (product) {
+          totalCount += cart[id];
+          totalPrice += product.price * cart[id];
+        }
+      }
+
+      if (totalCount > 0) {
+        cartBar.classList.remove('hidden');
+        document.getElementById('cartCount').innerText = `${totalCount} item(s) in cart`;
+        document.getElementById('cartTotal').innerText = totalPrice;
+      } else {
+        cartBar.classList.add('hidden');
+      }
+    }
+
+    function sendWhatsAppOrder() {
+      let text = `*NEW ORDER - LUCKY HARDWARE*\n`;
+      text += `---------------------------------\n`;
+
+      let total = 0;
+      for (let id in cart) {
+        const p = PRODUCTS.find(item => item.id == id);
+        if (p) {
+          const itemTotal = p.price * cart[id];
+          total += itemTotal;
+          text += `• ${p.name} x ${cart[id]} (${p.unit}) = ₹${itemTotal}\n`;
+        }
+      }
+
+      text += `---------------------------------\n`;
+      text += `*Total Amount:* ₹${total}\n\n`;
+      text += `Please confirm my order!`;
+
+      const url = `https://wa.me/919552768031?text=${encodeURIComponent(text)}`;
+      window.open(url, '_blank');
+    }
+
+    // AUTHENTICATION & MODAL CONTROLS
+    function openPasswordModal() {
+      if (isAdminAuthenticated) {
+        document.getElementById('adminModal').classList.remove('hidden');
+      } else {
+        document.getElementById('adminPasswordInput').value = '';
+        document.getElementById('passwordError').classList.add('hidden');
+        document.getElementById('passwordModal').classList.remove('hidden');
+      }
+    }
+
+    function closePasswordModal() {
+      document.getElementById('passwordModal').classList.add('hidden');
+    }
+
+    function handlePasswordSubmit(e) {
+      e.preventDefault();
+      const enteredPass = document.getElementById('adminPasswordInput').value;
+
+      if (enteredPass === "takiya=pillow") {
+        isAdminAuthenticated = true;
+        closePasswordModal();
+        document.getElementById('adminModal').classList.remove('hidden');
+      } else {
+        document.getElementById('passwordError').classList.remove('hidden');
+      }
+    }
+
+    function togglePasswordVisibility() {
+      const input = document.getElementById('adminPasswordInput');
+      const icon = document.getElementById('passEyeIcon');
+      if (input && icon) {
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.classList.remove('fa-eye');
+          icon.classList.add('fa-eye-slash');
+        } else {
+          input.type = 'password';
+          icon.classList.remove('fa-eye-slash');
+          icon.classList.add('fa-eye');
+        }
+      }
+    }
+
+    function closeAdminModal() {
+      document.getElementById('adminModal').classList.add('hidden');
+    }
+
+    function renderAdminList() {
+      const list = document.getElementById('adminProductList');
+      if (!list) return;
+      list.innerHTML = PRODUCTS.map(p => `
+        <div class="flex items-center justify-between p-2.5 bg-slate-900 border border-slate-800 rounded-xl text-xs">
+          <div class="truncate pr-2">
+            <p class="font-bold text-white truncate">${p.name}</p>
+            <p class="text-[10px] text-slate-400">₹${p.price} / ${p.unit} • ${p.category}</p>
+          </div>
+          <span class="text-[10px] font-mono text-brand-400">ID: ${p.id}</span>
+        </div>
+      `).join('');
+    }
+
+    function resetFilters() {
+      selectedCategory = 'All';
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput) searchInput.value = '';
+      renderCategoryChips();
+      renderProducts();
+    }
+  </script>
+</body>
+</html>
